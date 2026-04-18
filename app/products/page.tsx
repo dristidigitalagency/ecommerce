@@ -1,19 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { collection, getDocs, limit, query } from "firebase/firestore";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
 import Link from "next/link";
 import Image from "next/image";
 
-export default function Home() {
+export default function Products() {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchFeaturedProducts() {
+    async function fetchProducts() {
       try {
-        const q = query(collection(db, "products"), limit(8));
+        const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
         const querySnapshot = await getDocs(q);
         const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setProducts(data);
@@ -23,31 +23,13 @@ export default function Home() {
         setLoading(false);
       }
     }
-    fetchFeaturedProducts();
+    fetchProducts();
   }, []);
 
   return (
     <div className="bg-white dark:bg-gray-900 min-h-screen">
-      {/* Hero Section */}
-      <div className="relative bg-teal-700">
-        <div className="max-w-7xl mx-auto py-24 px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl">
-            Welcome to GameChanger
-          </h1>
-          <p className="mt-6 max-w-2xl mx-auto text-xl text-teal-100">
-            Discover the best products for your setup. Quality guaranteed.
-          </p>
-          <div className="mt-10">
-            <Link href="/products" className="inline-block bg-white text-teal-700 px-8 py-3 font-semibold rounded-md hover:bg-gray-50 transition">
-              Shop Now
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Featured Products */}
       <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Featured Products</h2>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">All Products</h1>
         
         {loading ? (
           <div className="text-center">Loading products...</div>
