@@ -18,7 +18,7 @@ export default function UserOrders() {
       try {
         const q = query(collection(db, "orders"), where("userId", "==", user.uid));
         const querySnapshot = await getDocs(q);
-        const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as any));
         data.sort((a, b) => b.createdAt?.toMillis() - a.createdAt?.toMillis());
         setOrders(data);
       } catch (error) {
