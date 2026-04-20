@@ -15,7 +15,7 @@ export default function AdminOrders() {
   async function fetchOrders() {
     try {
       const querySnapshot = await getDocs(collection(db, "orders"));
-      const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as any));
       // Sort by creation date descending
       data.sort((a, b) => b.createdAt?.toMillis() - a.createdAt?.toMillis());
       setOrders(data);
