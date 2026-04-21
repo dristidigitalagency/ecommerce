@@ -14,6 +14,8 @@ import { MOCK_PRODUCTS, PRODUCT_CATEGORIES } from "@/lib/data/constants";
 import { Filter, X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
+import { Suspense } from "react";
+
 export default function ProductsPage() {
   const searchParams = useSearchParams();
   const addItem = useCartStore((state) => state.addItem);
@@ -110,6 +112,7 @@ export default function ProductsPage() {
   };
 
   return (
+    <Suspense fallback={<div className="text-center py-12">Loading products...</div>}>
     <div className="min-h-screen bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
@@ -191,5 +194,6 @@ export default function ProductsPage() {
         </div>
       </div>
     </div>
+    </Suspense>
   );
 }
