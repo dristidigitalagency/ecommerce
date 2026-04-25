@@ -32,7 +32,7 @@ interface UserData {
   name?: string;
   email?: string;
   phone?: string;
-  address?: string;
+  address?: string | { address?: string; city?: string; zip?: string };
 }
 
 export default function OrderDetails() {
@@ -44,6 +44,13 @@ export default function OrderDetails() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const formatAddress = (address: string | { address?: string; city?: string; zip?: string } | undefined): string => {
+    if (!address) return "Not provided";
+    if (typeof address === "string") return address;
+    const parts = [address.address, address.city, address.zip].filter(Boolean);
+    return parts.length > 0 ? parts.join(", ") : "Not provided";
+  };
 
   useEffect(() => {
     async function fetchOrder() {
@@ -153,13 +160,7 @@ export default function OrderDetails() {
                 <div>
                   <p className="text-gray-600 dark:text-gray-400 font-medium">Shipping Address</p>
                   <p className="text-gray-900 dark:text-white">
-                    {typeof (order.shippingAddress || userData?.address) === 'string' 
-                      ? (order.shippingAddress || userData?.address) 
-                      : order.shippingAddress && typeof order.shippingAddress === 'object'
-                      ? `${order.shippingAddress.address || ''}, ${order.shippingAddress.city || ''}, ${order.shippingAddress.zip || ''}`.trim()
-                      : userData?.address && typeof userData.address === 'object'
-                      ? `${userData.address.address || ''}, ${userData.address.city || ''}, ${userData.address.zip || ''}`.trim()
-                      : "Not provided"}
+                    {formatAddress(order.shippingAddress || userData?.address)}
                   </p>
                 </div>
               </div>
