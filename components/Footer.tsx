@@ -1,14 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { Facebook, Instagram, Twitter, Mail } from "lucide-react";
+import { Facebook, Instagram, Twitter, Mail, MapPin, Phone, MessageCircle } from "lucide-react";
 import { BRAND_CONFIG } from "@/lib/data/constants";
 
 export const Footer: React.FC = () => {
+  const ownerEmail = process.env.NEXT_PUBLIC_OWNER_EMAIL || "info@himalayanthreads.com";
+  const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || "";
+  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "";
+  const address = process.env.NEXT_PUBLIC_ADDRESS || "";
+  const facebookLink = process.env.NEXT_PUBLIC_FACEBOOK_LINK || "#";
+  const twitterLink = process.env.NEXT_PUBLIC_TWITTER_LINK || "#";
+  const instagramLink = process.env.NEXT_PUBLIC_INSTAGRAM_LINK || "#";
+  const linkedinLink = process.env.NEXT_PUBLIC_LINKEDIN_LINK || "#";
+  const tiktokLink = process.env.NEXT_PUBLIC_TIKTOK_LINK || "#";
+
+  const whatsappUrl = whatsappNumber ? `https://wa.me/${whatsappNumber.replace(/\D/g, "")}` : "#";
+
   return (
     <footer className="bg-gray-900 dark:bg-black text-gray-300 dark:text-gray-400">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
@@ -45,6 +57,43 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
+          {/* Contact Info */}
+          <div>
+            <h4 className="font-bold text-white mb-4">Contact Info</h4>
+            <div className="space-y-3 text-sm">
+              {ownerEmail && (
+                <div className="flex items-start gap-2">
+                  <Mail className="w-4 h-4 mt-0.5 text-mountain-400 flex-shrink-0" />
+                  <a href={`mailto:${ownerEmail}`} className="hover:text-mountain-400 transition-colors break-all">
+                    {ownerEmail}
+                  </a>
+                </div>
+              )}
+              {phoneNumber && (
+                <div className="flex items-start gap-2">
+                  <Phone className="w-4 h-4 mt-0.5 text-mountain-400 flex-shrink-0" />
+                  <a href={`tel:${phoneNumber.replace(/\s/g, "")}`} className="hover:text-mountain-400 transition-colors">
+                    {phoneNumber}
+                  </a>
+                </div>
+              )}
+              {whatsappNumber && (
+                <div className="flex items-start gap-2">
+                  <MessageCircle className="w-4 h-4 mt-0.5 text-mountain-400 flex-shrink-0" />
+                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="hover:text-mountain-400 transition-colors">
+                    WhatsApp
+                  </a>
+                </div>
+              )}
+              {address && (
+                <div className="flex items-start gap-2">
+                  <MapPin className="w-4 h-4 mt-0.5 text-mountain-400 flex-shrink-0" />
+                  <p>{address}</p>
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* Newsletter */}
           <div>
             <h4 className="font-bold text-white mb-4">Newsletter</h4>
@@ -66,18 +115,26 @@ export const Footer: React.FC = () => {
         <div className="border-t border-gray-800 py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
           {/* Social Links */}
           <div className="flex gap-4">
-            <a href={BRAND_CONFIG.social.facebook} className="text-gray-400 hover:text-mountain-400 transition-colors">
-              <Facebook className="w-5 h-5" />
-            </a>
-            <a href={BRAND_CONFIG.social.instagram} className="text-gray-400 hover:text-mountain-400 transition-colors">
-              <Instagram className="w-5 h-5" />
-            </a>
-            <a href={BRAND_CONFIG.social.twitter} className="text-gray-400 hover:text-mountain-400 transition-colors">
-              <Twitter className="w-5 h-5" />
-            </a>
-            <a href="mailto:info@himalayanthreads.com" className="text-gray-400 hover:text-mountain-400 transition-colors">
-              <Mail className="w-5 h-5" />
-            </a>
+            {facebookLink !== "#" && (
+              <a href={facebookLink} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-mountain-400 transition-colors">
+                <Facebook className="w-5 h-5" />
+              </a>
+            )}
+            {instagramLink !== "#" && (
+              <a href={instagramLink} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-mountain-400 transition-colors">
+                <Instagram className="w-5 h-5" />
+              </a>
+            )}
+            {twitterLink !== "#" && (
+              <a href={twitterLink} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-mountain-400 transition-colors">
+                <Twitter className="w-5 h-5" />
+              </a>
+            )}
+            {ownerEmail && (
+              <a href={`mailto:${ownerEmail}`} className="text-gray-400 hover:text-mountain-400 transition-colors">
+                <Mail className="w-5 h-5" />
+              </a>
+            )}
           </div>
 
           {/* Copyright */}

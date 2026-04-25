@@ -9,7 +9,7 @@ import { signOut } from "firebase/auth";
 import { useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
 import { BRAND_CONFIG } from "@/lib/data/constants";
-
+import Image from 'next/image';
 export function Navbar() {
   const { user, userData } = useAuth();
   const cartItems = useCartStore((state) => state.items);
@@ -28,10 +28,17 @@ export function Navbar() {
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
             <Link href="/" className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-mountain-600 to-earth-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">HT</span>
+              <div className="w-16   h-10 bg-gradient-to-br from-mountain-100 to-earth-200 rounded-lg flex items-center justify-center">
+                {/* <span className="text-white font-bold text-lg">HT</span> */}
+                <Image
+                  src="/logo.png"
+                  alt="Hiker's Trail Logo"
+                  className="w-16  object-cover rounded-lg"
+                  width={50}
+                  height={50}
+                />
               </div>
-              <div className="hidden sm:block">
+              <div className=" sm:block">
                 <h1 className="text-lg font-bold text-mountain-600 dark:text-mountain-400">{BRAND_CONFIG.name}</h1>
                 <p className="text-xs text-gray-600 dark:text-gray-400 leading-none">{BRAND_CONFIG.tagline}</p>
               </div>
