@@ -31,6 +31,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <meta
+          name="google-site-verification"
+          content="2Q6eKQZFEIHFJrmuV-0UBrmPSN-OmolF0Q60zVPJmFE"
+        />
         <Script
           dangerouslySetInnerHTML={{
             __html: `
@@ -50,9 +54,7 @@ export default function RootLayout({
         <ThemeProvider>
           <AuthProvider>
             <Navbar />
-            <main className="flex-grow">
-              {children}
-            </main>
+            <main className="flex-grow">{children}</main>
             <Footer />
           </AuthProvider>
         </ThemeProvider>
