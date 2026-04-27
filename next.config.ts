@@ -8,7 +8,12 @@ const nextConfig: NextConfig = {
         hostname: "firebasestorage.googleapis.com",
       },
     ],
-    domains: ["images.unsplash.com"],
+    domains: [
+      "images.unsplash.com",
+      "media.columbia.com",
+      "encrypted-tbn0.gstatic.com",
+      "communityclothing.co.uk",
+    ],
   },
 };
 
