@@ -158,17 +158,17 @@ export default function Home() {
               {
                 name: "Women's Collection",
                 href: "/products?category=womens",
-                image: "https://images.unsplash.com/photo-1551963014-7ee88ad26fe3?w=400&h=300&fit=crop",
+                image: "https://media.columbia.com/i/columbia/2085051_397_f_om?w=768&h=806&fmt=auto",
               },
               {
                 name: "Kids Collection",
                 href: "/products?category=kids",
-                image: "https://images.unsplash.com/photo-1556821552-5ff63b1b116d?w=400&h=300&fit=crop",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7RaHWLMTfyRg7adl7mMVNE6D6GQA89EBfDA&s",
               },
               {
                 name: "Accessories",
                 href: "/products?category=accessories",
-                image: "https://images.unsplash.com/photo-1520391891063-f0ee881eac99?w=400&h=300&fit=crop",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0iDFIgALovzgm61pUMLOxtYFj762yP22Ivw&s",
               },
             ].map((category) => (
               <Link

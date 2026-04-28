@@ -78,9 +78,9 @@ export const MOCK_PRODUCTS = [
     reviews: 189,
     image:
       "https://images.unsplash.com/photo-1751797576961-76372820bb2a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    images: [
-      "https://images.unsplash.com/photo-1520391891063-f0ee881eac99?w=500&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1506703720897-c6b0b8ef6dba?w=500&h=600&fit=crop",
+      images: [
+      "https://images.unsplash.com/photo-1751797576961-76372820bb2a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+
     ],
     description: "Handwoven traditional shawl from mountain artisans",
     colors: ["navy", "burgundy", "cream", "mustard"],
@@ -100,9 +100,9 @@ export const MOCK_PRODUCTS = [
     reviews: 156,
     image:
       "https://media.columbia.com/i/columbia/2085051_397_f_om?w=768&h=806&fmt=auto",
-    images: [
-      "https://images.unsplash.com/photo-1551963014-7ee88ad26fe3?w=500&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1506629082632-2a716c96e1a6?w=500&h=600&fit=crop",
+      images: [
+      "https://media.columbia.com/i/columbia/2085051_397_f_om?w=768&h=806&fmt=auto",
+
     ],
     description: "Waterproof jacket designed for mountain weather",
     colors: ["black", "olive"],
@@ -122,9 +122,9 @@ export const MOCK_PRODUCTS = [
     reviews: 98,
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7RaHWLMTfyRg7adl7mMVNE6D6GQA89EBfDA&s",
-    images: [
-      "https://images.unsplash.com/photo-1556821552-5ff63b1b116d?w=500&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1460411794035-42604a2ee6b2?w=500&h=600&fit=crop",
+      images: [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7RaHWLMTfyRg7adl7mMVNE6D6GQA89EBfDA&s",
+    
     ],
     description: "Soft and warm fleece hoodie perfect for kids",
     colors: ["navy", "cream"],
@@ -144,9 +144,9 @@ export const MOCK_PRODUCTS = [
     reviews: 134,
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0iDFIgALovzgm61pUMLOxtYFj762yP22Ivw&s",
-    images: [
-      "https://images.unsplash.com/photo-1542272604-787c62d465d1?w=500&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1473221326783-27dbf4e82a5e?w=500&h=600&fit=crop",
+      images: [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0iDFIgALovzgm61pUMLOxtYFj762yP22Ivw&s",
+
     ],
     description: "Comfortable wool blend pants for all seasons",
     colors: ["charcoal", "navy", "black"],
@@ -166,9 +166,9 @@ export const MOCK_PRODUCTS = [
     reviews: 267,
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAP9pT7As6carMNvjIZnwam3VtkT9Jcw-lTw&s",
-    images: [
-      "https://images.unsplash.com/photo-1551028719-00167b16ebc5?w=500&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1506110773890-1b84a01a702c?w=500&h=600&fit=crop",
+      images: [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAP9pT7As6carMNvjIZnwam3VtkT9Jcw-lTw&s",
+
     ],
     description: "Luxurious cashmere cardigan for ultimate comfort",
     colors: ["cream", "burgundy", "charcoal"],
@@ -188,9 +188,9 @@ export const MOCK_PRODUCTS = [
     reviews: 212,
     image:
       "https://communityclothing.co.uk/cdn/shop/files/Male_Lambswool-Beanie-Hat_Charcoal_Editorial25Community-Clothing_1200x.jpg?v=1764341342",
-    images: [
-      "https://images.unsplash.com/photo-1570733831174-a0a9e6b95a5d?w=500&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1548181528-1f280c25e42d?w=500&h=600&fit=crop",
+      images: [
+      "https://communityclothing.co.uk/cdn/shop/files/Male_Lambswool-Beanie-Hat_Charcoal_Editorial25Community-Clothing_1200x.jpg?v=1764341342",
+      
     ],
     description: "Classic wool beanie for mountain expeditions",
     colors: ["black", "navy", "cream", "mustard"],
