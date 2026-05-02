@@ -87,7 +87,7 @@ export default function OrderDetails({ params }: { params: Promise<{ id: string 
                   <div className="ml-4 flex-1">
                     <div className="flex justify-between">
                       <p className="text-sm font-medium text-gray-900 dark:text-white">{item.name}</p>
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">${(item.price * item.quantity).toFixed(2)}</p>
+                      <p className="text-sm font-medium text-gray-900 dark:text-white">Rs.{(item.price * item.quantity).toFixed(2)}</p>
                     </div>
                     <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Qty {item.quantity}</p>
                   </div>
@@ -106,7 +106,7 @@ export default function OrderDetails({ params }: { params: Promise<{ id: string 
 
           <div className="px-6 py-5 sm:px-6 flex justify-between items-center border-t border-gray-200 dark:border-gray-700">
             <h4 className="text-lg font-medium text-gray-900 dark:text-white">Total Amount</h4>
-            <p className="text-lg font-bold text-gray-900 dark:text-white">${Number(order.totalAmount).toFixed(2)}</p>
+            <p className="text-lg font-bold text-gray-900 dark:text-white">Rs.{Number(order.totalAmount).toFixed(2)}</p>
           </div>
 
           {order.status === "DELIVERED" && (

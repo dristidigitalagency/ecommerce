@@ -126,7 +126,7 @@ export default function EditProduct() {
 
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Price ($)</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Price (Rs.)</label>
               <input
                 required
                 type="number"

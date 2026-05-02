@@ -1,8 +1,8 @@
 // Utility functions for common operations
 export const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat('en-US', {
+  return new Intl.NumberFormat('ne-NP', {
     style: 'currency',
-    currency: 'USD',
+    currency: 'NPR',
   }).format(price);
 };
 

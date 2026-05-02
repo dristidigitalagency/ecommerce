@@ -190,10 +190,10 @@ export default function OrderDetails() {
                         </td>
                         <td className="px-4 py-3 text-center text-sm text-gray-900 dark:text-white">{item.quantity}</td>
                         <td className="px-4 py-3 text-right text-sm text-gray-900 dark:text-white">
-                          ${Number(item.price).toFixed(2)}
+                          Rs.  {Number(item.price).toFixed(2)}
                         </td>
                         <td className="px-4 py-3 text-right text-sm font-medium text-gray-900 dark:text-white">
-                          ${(item.price * item.quantity).toFixed(2)}
+                          Rs.  {(item.price * item.quantity).toFixed(2)}
                         </td>
                       </tr>
                     ))}
@@ -207,13 +207,13 @@ export default function OrderDetails() {
                   <div className="flex justify-between mb-2">
                     <span className="text-gray-600 dark:text-gray-400">Subtotal:</span>
                     <span className="text-gray-900 dark:text-white">
-                      ${order.items.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}
+                      Rs.  {order.items.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}
                     </span>
                   </div>
                   <div className="flex justify-between py-2 border-t border-gray-200 dark:border-gray-700">
                     <span className="font-semibold text-gray-900 dark:text-white">Total:</span>
                     <span className="font-semibold text-gray-900 dark:text-white text-lg">
-                      ${Number(order.totalAmount).toFixed(2)}
+                      Rs.  {Number(order.totalAmount).toFixed(2)}
                     </span>
                   </div>
                 </div>

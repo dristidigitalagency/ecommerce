@@ -87,7 +87,7 @@ export default function Home() {
                 <Truck className="w-6 h-6 text-mountain-600 dark:text-mountain-400" />
               </div>
               <h3 className="font-bold text-gray-900 dark:text-white mb-2">Free Shipping</h3>
-              <p className="text-gray-600 dark:text-gray-400">On orders over $100</p>
+              <p className="text-gray-600 dark:text-gray-400">On orders over Rs. 1000</p>
             </div>
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-12 h-12 bg-mountain-100 dark:bg-mountain-900 rounded-lg mb-4">

@@ -78,7 +78,7 @@ export default function AdminOrders() {
                     {order.items?.length || 0} item{order.items?.length !== 1 ? 's' : ''}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                    ${Number(order.totalAmount).toFixed(2)}
+                    Rs. {Number(order.totalAmount).toFixed(2)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <select

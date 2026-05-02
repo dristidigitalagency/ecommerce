@@ -450,14 +450,14 @@ export default function CheckoutPage() {
 //                 {items.map((item) => (
 //                   <li key={item.id} className="py-3 flex justify-between">
 //                     <span className="text-sm text-gray-600 dark:text-gray-300">{item.name} x {item.quantity}</span>
-//                     <span className="text-sm font-medium text-gray-900 dark:text-white">${(item.price * item.quantity).toFixed(2)}</span>
+//                     <span className="text-sm font-medium text-gray-900 dark:text-white">{(item.price * item.quantity).toFixed(2)}</span>
 //                   </li>
 //                 ))}
 //               </ul>
 //               <div className="border-t border-gray-200 dark:border-gray-600 pt-4 space-y-2">
 //                 <div className="flex justify-between">
 //                   <span className="text-sm text-gray-600 dark:text-gray-300">Subtotal</span>
-//                   <span className="text-sm font-medium text-gray-900 dark:text-white">${getTotal().toFixed(2)}</span>
+//                   <span className="text-sm font-medium text-gray-900 dark:text-white">{getTotal().toFixed(2)}</span>
 //                 </div>
 //                 <div className="flex justify-between">
 //                   <span className="text-sm text-gray-600 dark:text-gray-300">Shipping</span>

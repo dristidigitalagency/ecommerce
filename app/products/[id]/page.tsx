@@ -289,7 +289,7 @@ export default function ProductDetailPage() {
                 <Truck className="w-5 h-5 text-mountain-600 dark:text-mountain-400 flex-shrink-0 mt-0.5" />
                 <div className="text-sm">
                   <p className="font-semibold text-gray-900 dark:text-white">Free Shipping</p>
-                  <p className="text-gray-600 dark:text-gray-400">On orders over $100</p>
+                  <p className="text-gray-600 dark:text-gray-400">On orders over Rs. 1000</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
