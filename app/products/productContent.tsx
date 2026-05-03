@@ -76,14 +76,14 @@ export default function ProductsPage() {
     // Color filter
     if (selectedColors.length > 0) {
       filtered = filtered.filter((p) =>
-        p.colors.some((c) => selectedColors.includes(c)),
+        p.colors.some((c: string) => selectedColors.includes(c)),
       );
     }
 
     // Size filter
     if (selectedSizes.length > 0) {
       filtered = filtered.filter((p) =>
-        p.sizes.some((s) => selectedSizes.includes(s)),
+        p.sizes.some((s: string) => selectedSizes.includes(s)),
       );
     }
 
@@ -184,7 +184,7 @@ export default function ProductsPage() {
           <aside
             className={`${
               mobileFiltersOpen ? "block" : "hidden"
-            } md:block w-full md:w-64 flex-shrink-0`}
+            } md:block w-full md:w-64 shrink-0`}
           >
             <div className="space-y-6">
               <CategoryFilter />
