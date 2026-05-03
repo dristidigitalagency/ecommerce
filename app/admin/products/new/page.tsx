@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { db, storage } from "@/lib/firebase/client";
+import { db } from "@/lib/firebase/client";
 import { useRouter } from "next/navigation";
 
 export default function NewProduct() {
@@ -26,9 +25,37 @@ export default function NewProduct() {
       let imageUrl = "";
 
       if (image) {
-        const storageRef = ref(storage, `products/${Date.now()}_${image.name}`);
-        const uploadTask = await uploadBytesResumable(storageRef, image);
-        imageUrl = await getDownloadURL(uploadTask.ref);
+        // Get presigned URL from API
+        const uploadResponse = await fetch("/admin/api/upload", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fileName: image.name,
+            fileType: image.type,
+          }),
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error("Failed to get upload URL");
+        }
+
+        const { uploadUrl, key } = await uploadResponse.json();
+
+        // Upload file to S3
+        const uploadResult = await fetch(uploadUrl, {
+          method: "PUT",
+          headers: { "Content-Type": image.type },
+          body: image,
+        });
+
+        if (!uploadResult.ok) {
+          throw new Error("Failed to upload image to S3");
+        }
+
+        // Construct S3 image URL
+        const bucket = process.env.NEXT_PUBLIC_AWS_S3_BUCKET;
+        const region = process.env.NEXT_PUBLIC_AWS_REGION;
+        imageUrl = `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
       }
 
       await addDoc(collection(db, "products"), {

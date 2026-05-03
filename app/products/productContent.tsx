@@ -10,16 +10,20 @@ import { PriceFilter } from "@/components/PriceFilter";
 import { SizeFilter } from "@/components/SizeFilter";
 import { useFilterStore } from "@/lib/store/useFilterStore";
 import { useCartStore } from "@/lib/store/useCartStore";
-import { MOCK_PRODUCTS, PRODUCT_CATEGORIES } from "@/lib/data/constants";
+import { PRODUCT_CATEGORIES } from "@/lib/data/constants";
 import { Filter, X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/lib/firebase/client";
 
 export default function ProductsPage() {
   const searchParams = useSearchParams();
   const addItem = useCartStore((state) => state.addItem);
-  const [filteredProducts, setFilteredProducts] = useState(MOCK_PRODUCTS);
+  const [allProducts, setAllProducts] = useState<any[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
+  const [displayProducts, setDisplayProducts] = useState<any[]>([]);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [displayProducts, setDisplayProducts] = useState(MOCK_PRODUCTS);
+  const [loading, setLoading] = useState(true);
 
   const {
     selectedCategory,
@@ -31,6 +35,27 @@ export default function ProductsPage() {
     setCategory,
   } = useFilterStore();
 
+  // Fetch products from Firebase
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const productsSnap = await getDocs(collection(db, "products"));
+        const productsData = productsSnap.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as any[];
+        
+        setAllProducts(productsData);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    fetchProducts();
+  }, []);
+
   // Set category from URL on load
   useEffect(() => {
     const categoryParam = searchParams.get("category");
@@ -41,7 +66,7 @@ export default function ProductsPage() {
 
   // Filter and sort products
   useEffect(() => {
-    let filtered = [...MOCK_PRODUCTS];
+    let filtered = [...allProducts];
 
     // Category filter
     if (selectedCategory !== "all") {
@@ -105,7 +130,7 @@ export default function ProductsPage() {
   ]);
 
   const handleAddToCart = (productId: string) => {
-    const product = MOCK_PRODUCTS.find((p) => p.id === productId);
+    const product = allProducts.find((p) => p.id === productId);
     if (product) {
       addItem({
         id: product.id,
@@ -171,7 +196,11 @@ export default function ProductsPage() {
 
           {/* Products Grid */}
           <div className="flex-1">
-            {filteredProducts.length > 0 ? (
+            {loading ? (
+              <div className="flex items-center justify-center py-12">
+                <div className="text-gray-600 dark:text-gray-400">Loading products...</div>
+              </div>
+            ) : filteredProducts.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredProducts.map((product) => (
                   <ProductCard

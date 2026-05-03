@@ -1,26 +1,59 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { MOCK_PRODUCTS, COLORS, SIZES } from "@/lib/data/constants";
+import { COLORS, SIZES } from "@/lib/data/constants";
 import { useCartStore } from "@/lib/store/useCartStore";
 import { formatPrice, calculateDiscount } from "@/lib/utils";
 import { Star, Heart, ShoppingCart, Truck, RotateCcw, Check } from "lucide-react";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase/client";
 
 export default function ProductDetailPage() {
   const params = useParams();
   const productId = params.id as string;
-  const product = MOCK_PRODUCTS.find((p) => p.id === productId);
+  const [product, setProduct] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
   const addItem = useCartStore((state) => state.addItem);
 
-  const [selectedColor, setSelectedColor] = useState(product?.colors[0] || "");
-  const [selectedSize, setSelectedSize] = useState(product?.sizes[0] || "");
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    async function fetchProduct() {
+      try {
+        const docSnap = await getDoc(doc(db, "products", productId));
+        if (docSnap.exists()) {
+          const data = { id: docSnap.id, ...docSnap.data() };
+          setProduct(data as any);
+          setSelectedColor(data.colors?.[0] || "");
+          setSelectedSize(data.sizes?.[0] || "");
+        }
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    fetchProduct();
+  }, [productId]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-gray-600 dark:text-gray-400">Loading product...</div>
+        </div>
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -70,7 +103,7 @@ export default function ProductDetailPage() {
             {/* Main Image */}
             <div className="relative aspect-square bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden group">
               <Image
-                src={product.images[currentImageIndex]}
+                src={product.images?.[currentImageIndex] || product.image}
                 alt={product.name}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -89,22 +122,23 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Thumbnail Gallery */}
-            <div className="flex gap-2">
-              {product.images.map((img, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentImageIndex(idx)}
-                  className={`relative w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
-                    currentImageIndex === idx
-                      ? "border-mountain-600"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                >
-                  <Image src={img} alt={`View ${idx + 1}`} fill className="object-cover" />
-                </button>
-              ))}
-            </div>
-          </div>
+            {product.images && product.images.length > 0 && (
+              <div className="flex gap-2">
+                {product.images.map((img: string, idx: number) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentImageIndex(idx)}
+                    className={`relative w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
+                      currentImageIndex === idx
+                        ? "border-mountain-600"
+                        : "border-gray-300 dark:border-gray-600"
+                    }`}
+                  >
+                    <Image src={img} alt={`View ${idx + 1}`} fill className="object-cover" />
+                  </button>
+                ))}
+              </div>
+            )}
 
           {/* Product Details */}
           <div className="space-y-6">

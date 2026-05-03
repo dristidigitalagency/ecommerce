@@ -5,18 +5,36 @@ import Link from "next/link";
 import Image from "next/image";
 import { ProductCard } from "@/components/ProductCard";
 import { useCartStore } from "@/lib/store/useCartStore";
-import { MOCK_PRODUCTS, BRAND_CONFIG } from "@/lib/data/constants";
+import { BRAND_CONFIG } from "@/lib/data/constants";
 import { ArrowRight, Truck, Shield, RotateCcw } from "lucide-react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/lib/firebase/client";
 
 export default function Home() {
-  const [products, setProducts] = useState(MOCK_PRODUCTS);
-  const [featured, setFeatured] = useState(MOCK_PRODUCTS.slice(0, 8));
+  const [products, setProducts] = useState<any[]>([]);
+  const [featured, setFeatured] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const addItem = useCartStore((state) => state.addItem);
 
   useEffect(() => {
-    // In a real app, fetch from Firebase
-    setProducts(MOCK_PRODUCTS);
-    setFeatured(MOCK_PRODUCTS.slice(0, 8));
+    async function fetchProducts() {
+      try {
+        const productsSnap = await getDocs(collection(db, "products"));
+        const productsData = productsSnap.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as any[];
+        
+        setProducts(productsData);
+        setFeatured(productsData.slice(0, 8));
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    fetchProducts();
   }, []);
 
   const handleAddToCart = (productId: string) => {
@@ -120,15 +138,21 @@ export default function Home() {
           </div>
 
           {/* Product Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
-            {featured.map((product) => (
-              <ProductCard
-                key={product.id}
-                {...product}
-                onAddToCart={handleAddToCart}
-              />
-            ))}
-          </div>
+          {loading ? (
+            <div className="flex items-center justify-center py-12">
+              <div className="text-gray-600 dark:text-gray-400">Loading products...</div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+              {featured.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  {...product}
+                  onAddToCart={handleAddToCart}
+                />
+              ))}
+            </div>
+          )}
 
           {/* View All Button */}
           <div className="text-center">
