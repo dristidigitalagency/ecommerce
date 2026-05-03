@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
       "communityclothing.co.uk",
       "dristi-himalayanthread-assets-803991062503-ap-south-1-an.s3.ap-south-1.amazonaws.com"
     ],
+    unoptimized: true,
   },
 };
 

@@ -136,7 +136,7 @@ export default function ProductsPage() {
         id: product.id,
         name: product.name,
         price: product.price,
-        imageUrl: product.image,
+        imageUrl: product.image || product.imageUrl,
       });
     }
   };
