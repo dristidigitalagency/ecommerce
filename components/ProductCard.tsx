@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Star, ShoppingCart, Heart } from "lucide-react";
-import { formatPrice, calculateDiscount } from "@/lib/utils";
+import { formatPrice, calculateDiscount, getCloudFrontUrl } from "@/lib/utils";
 import { useState } from "react";
 
 interface ProductCardProps {
@@ -35,7 +35,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
-  const productImage = image || imageUrl || "";
+  const productImage = getCloudFrontUrl(image || imageUrl || "");
 
   const discount = originalPrice ? calculateDiscount(originalPrice, price) : 0;
 

@@ -52,10 +52,8 @@ export default function NewProduct() {
           throw new Error("Failed to upload image to S3");
         }
 
-        // Construct S3 image URL
-        const bucket = process.env.NEXT_PUBLIC_AWS_S3_BUCKET;
-        const region = process.env.NEXT_PUBLIC_AWS_REGION;
-        imageUrl = `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
+        // Store only the S3 key, not the full URL
+        imageUrl = key;
       }
 
       await addDoc(collection(db, "products"), {

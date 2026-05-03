@@ -7,6 +7,7 @@ import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { getCloudFrontUrl } from "@/lib/utils";
 
 export default function EditProduct() {
   const router = useRouter();
@@ -84,10 +85,8 @@ export default function EditProduct() {
           throw new Error("Failed to upload image to S3");
         }
 
-        // Construct S3 image URL
-        const bucket = process.env.NEXT_PUBLIC_AWS_S3_BUCKET;
-        const region = process.env.NEXT_PUBLIC_AWS_REGION;
-        newImageUrl = `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
+        // Store only the S3 key, not the full URL
+        newImageUrl = key;
       }
 
       await updateDoc(doc(db, "products", productId), {
@@ -190,7 +189,7 @@ export default function EditProduct() {
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Product Image</label>
             {imageUrl && (
               <div className="mb-4 relative w-32 h-32">
-                <Image src={imageUrl} alt="Current product image" fill className="rounded-md object-cover" />
+                <Image src={getCloudFrontUrl(imageUrl)} alt="Current product image" fill className="rounded-md object-cover" />
               </div>
             )}
             <input

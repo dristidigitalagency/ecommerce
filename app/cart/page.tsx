@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCartStore } from "@/lib/store/useCartStore";
 import { ShoppingBag, Trash2, Plus, Minus, ArrowLeft } from "lucide-react";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, getCloudFrontUrl } from "@/lib/utils";
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, clearCart, getTotal } = useCartStore();
@@ -53,9 +53,9 @@ export default function CartPage() {
                       className="flex gap-4 pb-6 border-b border-gray-200 dark:border-gray-700 last:pb-0 last:border-0"
                     >
                       {/* Product Image */}
-                      <div className="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0">
+                      <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0">
                         <Image
-                          src={item.imageUrl}
+                          src={getCloudFrontUrl(item.imageUrl)}
                           alt={item.name}
                           width={120}
                           height={120}

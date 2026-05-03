@@ -36,3 +36,17 @@ export const generateOrderNumber = (): string => {
   const random = Math.random().toString(36).substring(2, 8).toUpperCase();
   return `HT-${timestamp}-${random}`;
 };
+
+export const getCloudFrontUrl = (s3Key: string): string => {
+  if (!s3Key) return "";
+  // If it's already a full URL, return as is
+  if (s3Key.startsWith("http://") || s3Key.startsWith("https://")) {
+    return s3Key;
+  }
+  const cloudFrontUrl = process.env.NEXT_PUBLIC_CLOUDFRONT_URL;
+  if (!cloudFrontUrl) {
+    console.warn("NEXT_PUBLIC_CLOUDFRONT_URL is not set");
+    return "";
+  }
+  return `${cloudFrontUrl}/${s3Key}`;
+};

@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import { COLORS, SIZES } from "@/lib/data/constants";
 import { useCartStore } from "@/lib/store/useCartStore";
-import { formatPrice, calculateDiscount } from "@/lib/utils";
+import { formatPrice, calculateDiscount, getCloudFrontUrl } from "@/lib/utils";
 import { Star, Heart, ShoppingCart, Truck, RotateCcw, Check } from "lucide-react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
@@ -103,7 +103,7 @@ export default function ProductDetailPage() {
             {/* Main Image */}
             <div className="relative aspect-square bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden group">
               <Image
-                src={product.images?.[currentImageIndex] || product.image}
+                src={getCloudFrontUrl(product.images?.[currentImageIndex] || product.image)}
                 alt={product.name}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -133,7 +133,7 @@ export default function ProductDetailPage() {
                         : "border-gray-300 dark:border-gray-600"
                       }`}
                   >
-                    <Image src={img} alt={`View ${idx + 1}`} fill className="object-cover" />
+                    <Image src={getCloudFrontUrl(img)} alt={`View ${idx + 1}`} fill className="object-cover" />
                   </button>
                 ))}
               </div>

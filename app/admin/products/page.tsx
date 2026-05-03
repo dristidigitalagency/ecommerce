@@ -6,6 +6,7 @@ import { db } from "@/lib/firebase/client";
 import Link from "next/link";
 import Image from "next/image";
 import { Trash2, Edit, Plus } from "lucide-react";
+import { getCloudFrontUrl } from "@/lib/utils";
 
 export default function AdminProducts() {
   const [products, setProducts] = useState<any[]>([]);
@@ -86,9 +87,9 @@ export default function AdminProducts() {
                 <tr key={product.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <div className="flex-shrink-0 h-10 w-10 relative">
+                      <div className="shrink-0 h-10 w-10 relative">
                         {product.imageUrl ? (
-                          <Image src={product.imageUrl} alt={product.name} fill className="rounded-md object-cover" />
+                          <Image src={getCloudFrontUrl(product.imageUrl)} alt={product.name} fill className="rounded-md object-cover" />
                         ) : (
                           <div className="h-10 w-10 bg-gray-200 dark:bg-gray-700 rounded-md"></div>
                         )}
