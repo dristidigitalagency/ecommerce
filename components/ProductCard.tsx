@@ -11,7 +11,8 @@ interface ProductCardProps {
   name: string;
   price: number;
   originalPrice?: number;
-  image: string;
+  image?: string;
+  imageUrl?: string;
   rating: number;
   reviews: number;
   inStock: boolean;
@@ -25,6 +26,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   price,
   originalPrice,
   image,
+  imageUrl,
   rating,
   reviews,
   inStock,
@@ -33,6 +35,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
+  const productImage = image || imageUrl || "";
 
   const discount = originalPrice ? calculateDiscount(originalPrice, price) : 0;
 
@@ -50,7 +53,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       <div className="relative overflow-hidden bg-gray-100 dark:bg-gray-700 h-64 sm:h-72">
         <Link href={`/products/${id}`}>
           <Image
-            src={image}
+            src={productImage || ""}
             alt={name}
             fill
             className="object-cover group-hover:scale-110 transition-transform duration-300"
