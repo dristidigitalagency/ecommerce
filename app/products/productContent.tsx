@@ -70,20 +70,20 @@ export default function ProductsPage() {
 
     // Category filter
     if (selectedCategory !== "all") {
-      filtered = filtered.filter((p) => p.category === selectedCategory);
+      filtered = filtered.filter((p: any) => p.category === selectedCategory);
     }
 
     // Color filter
     if (selectedColors.length > 0) {
-      filtered = filtered.filter((p) =>
-        p.colors.some((c: string) => selectedColors.includes(c)),
+      filtered = filtered.filter((p: any) =>
+        (p.colors as string[]).some((c: string) => selectedColors.includes(c)),
       );
     }
 
     // Size filter
     if (selectedSizes.length > 0) {
-      filtered = filtered.filter((p) =>
-        p.sizes.some((s: string) => selectedSizes.includes(s)),
+      filtered = filtered.filter((p: any) =>
+        (p.sizes as string[]).some((s: string) => selectedSizes.includes(s)),
       );
     }
 
