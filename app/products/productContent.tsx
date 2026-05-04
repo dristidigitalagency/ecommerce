@@ -121,6 +121,7 @@ export default function ProductsPage() {
     setFilteredProducts(filtered);
     setDisplayProducts(filtered);
   }, [
+    allProducts,
     selectedCategory,
     selectedColors,
     selectedSizes,

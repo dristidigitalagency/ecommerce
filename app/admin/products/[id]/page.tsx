@@ -1,31 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
-import { useRouter, useParams } from "next/navigation";
-import Image from "next/image";
-import { ArrowLeft } from "lucide-react";
+import { useParams } from "next/navigation";
 import Link from "next/link";
-import { getCloudFrontUrl } from "@/lib/utils";
-import { COLORS, SIZES } from "@/lib/data/constants";
+import { ArrowLeft } from "lucide-react";
+import ProductForm from "@/components/admin/ProductForm";
 
 export default function EditProduct() {
-  const router = useRouter();
   const params = useParams();
   const productId = params.id as string;
-
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("");
-  const [stock, setStock] = useState("");
-  const [image, setImage] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState("");
-  const [selectedColors, setSelectedColors] = useState<string[]>([]);
-  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
+  const [initialData, setInitialData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -33,15 +20,7 @@ export default function EditProduct() {
       try {
         const docSnap = await getDoc(doc(db, "products", productId));
         if (docSnap.exists()) {
-          const data = docSnap.data();
-          setName(data.name || "");
-          setDescription(data.description || "");
-          setPrice(data.price?.toString() || "");
-          setCategory(data.category || "");
-          setStock(data.stock?.toString() || "");
-          setImageUrl(data.imageUrl || "");
-          setSelectedColors(data.colors || []);
-          setSelectedSizes(data.sizes || []);
+          setInitialData({ id: docSnap.id, ...docSnap.data() });
         } else {
           setError("Product not found");
         }
@@ -54,232 +33,17 @@ export default function EditProduct() {
     fetchProduct();
   }, [productId]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSaving(true);
-    setError("");
-
-    try {
-      let newImageUrl = imageUrl;
-
-      if (image) {
-        // Get presigned URL from API
-        const uploadResponse = await fetch("/admin/api/upload", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            fileName: image.name,
-            fileType: image.type,
-          }),
-        });
-
-        if (!uploadResponse.ok) {
-          throw new Error("Failed to get upload URL");
-        }
-
-        const { uploadUrl, key } = await uploadResponse.json();
-
-        // Upload file to S3
-        const uploadResult = await fetch(uploadUrl, {
-          method: "PUT",
-          headers: { "Content-Type": image.type },
-          body: image,
-        });
-
-        if (!uploadResult.ok) {
-          throw new Error("Failed to upload image to S3");
-        }
-
-        // Store only the S3 key, not the full URL
-        newImageUrl = key;
-      }
-
-      await updateDoc(doc(db, "products", productId), {
-        name,
-        description,
-        price: parseFloat(price),
-        category,
-        stock: parseInt(stock, 10),
-        imageUrl: newImageUrl,
-        colors: selectedColors,
-        sizes: selectedSizes,
-        updatedAt: new Date(),
-      });
-
-      router.push("/admin/products");
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-gray-900 dark:text-white">Loading product...</div>
-      </div>
-    );
-  }
-
   return (
     <div>
       <Link href="/admin/products" className="flex items-center gap-2 text-teal-600 hover:text-teal-700 mb-6">
         <ArrowLeft size={20} />
         Back to Products
       </Link>
-
-      <div className="max-w-2xl bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Edit Product</h1>
-
-        {error && <p className="text-red-500 mb-4 p-3 bg-red-50 dark:bg-red-900/20 rounded">{error}</p>}
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
-            <input
-              required
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm px-3 py-2 border text-gray-900 dark:text-white"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
-            <textarea
-              required
-              rows={4}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm px-3 py-2 border text-gray-900 dark:text-white"
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Price (Rs.)</label>
-              <input
-                required
-                type="number"
-                step="0.01"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm px-3 py-2 border text-gray-900 dark:text-white"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Stock</label>
-              <input
-                required
-                type="number"
-                value={stock}
-                onChange={(e) => setStock(e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm px-3 py-2 border text-gray-900 dark:text-white"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
-            <input
-              required
-              type="text"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm px-3 py-2 border text-gray-900 dark:text-white"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Product Image</label>
-            {imageUrl && (
-              <div className="mb-4 relative w-32 h-32">
-                <Image src={getCloudFrontUrl(imageUrl)} alt="Current product image" fill className="rounded-md object-cover" />
-              </div>
-            )}
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                if (e.target.files) setImage(e.target.files[0]);
-              }}
-              className="mt-1 block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100"
-            />
-            <p className="text-xs text-gray-500 mt-2">Leave empty to keep current image</p>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Available Colors</label>
-            <div className="flex flex-wrap gap-2">
-              {COLORS.map((color) => (
-                <button
-                  key={color.id}
-                  type="button"
-                  onClick={() => {
-                    setSelectedColors(prev =>
-                      prev.includes(color.id)
-                        ? prev.filter(c => c !== color.id)
-                        : [...prev, color.id]
-                    );
-                  }}
-                  className={`w-10 h-10 rounded-lg border-2 transition-all ${
-                    selectedColors.includes(color.id)
-                      ? "border-gray-900 dark:border-white ring-2 ring-teal-600"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                  style={{ backgroundColor: color.hex }}
-                  title={color.name}
-                />
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Available Sizes</label>
-            <div className="flex flex-wrap gap-2">
-              {SIZES.map((size) => (
-                <button
-                  key={size.id}
-                  type="button"
-                  onClick={() => {
-                    setSelectedSizes(prev =>
-                      prev.includes(size.id)
-                        ? prev.filter(s => s !== size.id)
-                        : [...prev, size.id]
-                    );
-                  }}
-                  className={`px-4 py-2 rounded border-2 font-semibold transition-all ${
-                    selectedSizes.includes(size.id)
-                      ? "bg-teal-600 dark:bg-teal-500 text-white border-teal-600 dark:border-teal-500"
-                      : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
-                  }`}
-                >
-                  {size.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex gap-4">
-            <button
-              type="submit"
-              disabled={saving}
-              className="flex-1 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:bg-gray-400"
-            >
-              {saving ? "Saving..." : "Save Changes"}
-            </button>
-            <button
-              type="button"
-              onClick={() => router.push("/admin/products")}
-              className="flex-1 flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
+      {loading && <div className="text-gray-900 dark:text-white p-8">Loading product...</div>}
+      {error && <div className="text-red-600 p-8">{error}</div>}
+      {!loading && !error && initialData && (
+        <ProductForm mode="edit" productId={productId} initialData={initialData} />
+      )}
     </div>
   );
 }
