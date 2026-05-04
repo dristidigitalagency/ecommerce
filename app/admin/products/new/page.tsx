@@ -4,6 +4,7 @@ import { useState } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
 import { useRouter } from "next/navigation";
+import { COLORS, SIZES } from "@/lib/data/constants";
 
 export default function NewProduct() {
   const router = useRouter();
@@ -13,6 +14,8 @@ export default function NewProduct() {
   const [category, setCategory] = useState("");
   const [stock, setStock] = useState("");
   const [image, setImage] = useState<File | null>(null);
+  const [selectedColors, setSelectedColors] = useState<string[]>([]);
+  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -63,6 +66,8 @@ export default function NewProduct() {
         category,
         stock: parseInt(stock, 10),
         imageUrl,
+        colors: selectedColors,
+        sizes: selectedSizes,
         createdAt: serverTimestamp(),
       });
 
@@ -110,6 +115,58 @@ export default function NewProduct() {
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Product Image</label>
           <input type="file" accept="image/*" onChange={(e) => { if (e.target.files) setImage(e.target.files[0]) }} className="mt-1 block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100" />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Available Colors</label>
+          <div className="flex flex-wrap gap-2">
+            {COLORS.map((color) => (
+              <button
+                key={color.id}
+                type="button"
+                onClick={() => {
+                  setSelectedColors(prev =>
+                    prev.includes(color.id)
+                      ? prev.filter(c => c !== color.id)
+                      : [...prev, color.id]
+                  );
+                }}
+                className={`w-10 h-10 rounded-lg border-2 transition-all ${
+                  selectedColors.includes(color.id)
+                    ? "border-gray-900 dark:border-white ring-2 ring-teal-600"
+                    : "border-gray-300 dark:border-gray-600"
+                }`}
+                style={{ backgroundColor: color.hex }}
+                title={color.name}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Available Sizes</label>
+          <div className="flex flex-wrap gap-2">
+            {SIZES.map((size) => (
+              <button
+                key={size.id}
+                type="button"
+                onClick={() => {
+                  setSelectedSizes(prev =>
+                    prev.includes(size.id)
+                      ? prev.filter(s => s !== size.id)
+                      : [...prev, size.id]
+                  );
+                }}
+                className={`px-4 py-2 rounded border-2 font-semibold transition-all ${
+                  selectedSizes.includes(size.id)
+                    ? "bg-teal-600 dark:bg-teal-500 text-white border-teal-600 dark:border-teal-500"
+                    : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
+                }`}
+              >
+                {size.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         <button type="submit" disabled={loading} className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:bg-gray-400">

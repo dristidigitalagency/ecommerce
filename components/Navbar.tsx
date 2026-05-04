@@ -67,7 +67,7 @@ export function Navbar() {
           {/* Right Icons */}
           <div className="flex items-center space-x-4">
             <ThemeToggle />
-            
+
             <Link href="/cart" className="relative text-gray-700 dark:text-gray-300 hover:text-mountain-600 dark:hover:text-mountain-400 transition-colors">
               <ShoppingCart className="w-6 h-6" />
               {cartCount > 0 && (
@@ -126,7 +126,7 @@ export function Navbar() {
               <Link href="/products?category=accessories" className="block text-gray-700 dark:text-gray-300 hover:text-mountain-600 py-2 transition-colors">
                 Accessories
               </Link>
-              
+
               {user ? (
                 <>
                   {userData?.role === "admin" && (
