@@ -1,0 +1,31 @@
+[33mc19ccf0[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m HEAD@{0}: reset: moving to c19ccf08d2fa029fa9ee3505d44898443f875afd
+[33m21c592c[m HEAD@{1}: commit: removed aws
+[33m43eb30c[m HEAD@{2}: commit: final
+[33m63ffd5f[m HEAD@{3}: commit: bug_fix
+[33m7739114[m HEAD@{4}: commit: working
+[33mc71f34e[m HEAD@{5}: commit: icon
+[33m66ff3c0[m HEAD@{6}: commit: erro_fixed_to_product_context
+[33m1de85fb[m HEAD@{7}: commit: Update productContent.tsx
+[33m6387003[m HEAD@{8}: commit: cloudfront
+[33m40e5a8f[m HEAD@{9}: commit: product_page
+[33m4b1e222[m HEAD@{10}: commit: Update ProductCard.tsx
+[33mc19ccf0[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m HEAD@{11}: commit: aws
+[33m049d0bc[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{12}: commit: Currency change
+[33mc251cf0[m HEAD@{13}: commit: Mock_category_photo
+[33mb6355e1[m HEAD@{14}: commit: photos
+[33md87163e[m HEAD@{15}: commit: google_verification
+[33mc6ae288[m HEAD@{16}: commit: address type corrected
+[33m1c15155[m HEAD@{17}: commit: admin
+[33m17b1e39[m HEAD@{18}: commit: .env about section
+[33mc9f6d93[m HEAD@{19}: commit: component breakdown
+[33m4ef47f1[m HEAD@{20}: commit: added suspense boundary
+[33mef3e4e0[m HEAD@{21}: commit: added force-dynamic in products
+[33m388a490[m HEAD@{22}: commit: another error removed
+[33ma1c6b2e[m HEAD@{23}: commit: erro removed
+[33md0431aa[m HEAD@{24}: commit: error removed
+[33m0e5e6f9[m HEAD@{25}: commit: final
+[33m388b20d[m HEAD@{26}: commit: another createdat problem
+[33m481dde3[m HEAD@{27}: commit: page change
+[33m79bf689[m HEAD@{28}: commit: env
+[33m6aa32a6[m HEAD@{29}: commit: Initial commit
+[33mb28577d[m HEAD@{30}: commit (initial): Initial commit from Create Next App
